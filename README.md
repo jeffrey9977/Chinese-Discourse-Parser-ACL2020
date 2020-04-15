@@ -2,7 +2,7 @@
 
 1. Prepare the training data and train three models
 
-	model architectures (model_edu.py, model_trans.py, model_rlat.py) are placed in model_dir/ and the model checkpoint will be placed in saved_model/
+model architectures (model_edu.py, model_trans.py, model_rlat.py) are placed in model_dir/ and the model checkpoint will be placed in saved_model/
 
 ```
 python3.6 main.py --make_dataset --train_edu --train_trans --train_rlat
@@ -13,16 +13,17 @@ python3.6 main.py --make_dataset --train_edu --train_trans --train_rlat
 ```
 python3.6 test.py 
 ```
-    --gold_edu      : using golden edu
-    --test_micro    : performances reported in micro F1 score
-    --test_macro    : performances reported in micro F1 score
-    --convert_multi : covert binary tree to mutliway tree
+--gold_edu      : using golden edu
+--test_micro    : performances reported in micro F1 score
+--test_macro    : performances reported in micro F1 score
+--convert_multi : covert binary tree to mutliway tree
 
 3. To predict, run
+
 ```
 python3.6 demo.py --input_file $1 --output_file $2 
 ```
-    where $1 specifies input text $2 specifies output json file
+where $1 specifies input text $2 specifies output json file
 
 e.g.
 
