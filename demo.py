@@ -64,6 +64,37 @@ def main(args):
 
     predict_node_list, predict_leafnode_list = buildPredictTree(text, tokenizer, model_1, model_2, model_3, False)
 
+    pred_list = predict_leafnode_list + predict_node_list
+    # convert_multi(pred_list, predict_leafnode_list, predict_node_list)
+
+    done = False
+    while done != True:
+        for node in LevelOrderIter(pred_list[-1]):
+            all_node = [node.name for node in LevelOrderIter(pred_list[-1])]
+            if node.relation == 'coordination' and node.center == '4':
+
+                modified = False
+                child_list = list(node.children)
+                child = child_list[0]
+
+                if child_list[0].relation == 'coordination' and child_list[0].center == '4':
+                    #idx = child_list.index(child)
+                    child_list[0:0] = list(child_list[0].children)
+                    child_list.remove(child)
+
+                    predict_node_list.remove(child)
+
+                    node.children = child_list
+                    modified = True
+                if modified == True:
+                    break
+            if node.name == all_node[-1]:
+                done = True
+    # convert 4 back to 3
+    for node in predict_node_list:
+        if node.center == '4':
+            node.center = '3'
+
     for pre, fill, node in RenderTree(predict_node_list[-1]):
         if node.is_edu == True:
             print("%s%s %s" % (pre, node.name,node.sent))
