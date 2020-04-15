@@ -178,9 +178,7 @@ class ModelTrans():
             with torch.no_grad():
                 train_acc = self.test_accuracy("train", self.model, train)
             with torch.no_grad():
-                valid_acc = self.test_accuracy("train", self.model, valid)
-            with torch.no_grad():
-                test_acc = self.test_accuracy("test", self.model, test)
+                valid_acc = self.test_accuracy("valid", self.model, valid)
 
                 # with open('{}'.format('oracle_trans/mix_variation/mix_variation.csv'), 'a') as f:
                 #     writer = csv.writer(f, delimiter=',')
@@ -190,6 +188,9 @@ class ModelTrans():
                 # torch.save(
                 #     model.state_dict(),
                 #     'oracle_trans/mix_variation/model_trans.pkl.{}'.format(epoch+1))
+
+        with torch.no_grad():
+            test_acc = self.test_accuracy("test", self.model, test)
 
     def train_paragraph(self, trange, bin_rlat_list, golden_edu, running_loss, step):
         alpha = 0.7
