@@ -620,7 +620,7 @@ def main(args):
     model_2.eval()
     model_3.load_state_dict(torch.load("saved_model/pretrained_edu.pkl")) 
     model_3.eval()
-    
+
     tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
 
     p_total = r_total = p_merge = r_merge = p_sense = r_sense = p_center = r_center = p_join = r_join = 0
@@ -640,7 +640,7 @@ def main(args):
 
     test_count = acc_count = gold_count = 0
 
-    all_files = [f for f in sorted(glob.glob('{}/*.{}'.format('CDTB/test','csv')))]
+    all_files = [f for f in sorted(glob.glob('{}/*.{}'.format('test','csv')))]
     # iterate through all training data(csv)
 
     trange = tqdm(enumerate(all_files),
@@ -954,18 +954,18 @@ def main(args):
         f_score = 2 * p_score * r_score / (p_score+r_score)
         print("overall : f_score = ", round(f_score,5)," %")
         print('-'*100)
-        causality_result = precision_recall_fscore_support(
-            test_casuality, gold_casuality, average="binary")
-        print("causality    : ", causality_result)
-        coordination_result = precision_recall_fscore_support(
-            test_coordination,gold_coordination, average="binary")
-        print("coordination : ", coordination_result)
-        transition_result = precision_recall_fscore_support(
-            test_transition, gold_transition, average="binary")
-        print("transition   : ", transition_result)
-        explanation_result = precision_recall_fscore_support(
-            test_explanation, gold_explanation, average="binary")
-        print("explanation  : ", explanation_result)
+        # causality_result = precision_recall_fscore_support(
+        #     test_casuality, gold_casuality, average="binary")
+        # print("causality    : ", causality_result)
+        # coordination_result = precision_recall_fscore_support(
+        #     test_coordination,gold_coordination, average="binary")
+        # print("coordination : ", coordination_result)
+        # transition_result = precision_recall_fscore_support(
+        #     test_transition, gold_transition, average="binary")
+        # print("transition   : ", transition_result)
+        # explanation_result = precision_recall_fscore_support(
+        #     test_explanation, gold_explanation, average="binary")
+        # print("explanation  : ", explanation_result)
     
     if args.test_macro:
         print("macro  : ")
