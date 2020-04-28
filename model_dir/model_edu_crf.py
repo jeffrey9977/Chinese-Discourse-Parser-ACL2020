@@ -22,7 +22,7 @@ from tqdm import tqdm
 from preprocessor import Preprocessor
 from dataset import EDUDataset, partition, EDUCollator
 
-os.makedirs("edu_crf/", exist_ok=True)
+os.makedirs("saved_model/", exist_ok=True)
 
 try:
     torch.multiprocessing.set_start_method("spawn")
@@ -271,7 +271,7 @@ class ModelEDU():
             with torch.no_grad():
                 self.testAccuracy("dev", self.model, valid)
 
-            # torch.save(self.model.state_dict(),'edu_crf/EDU.pkl.{}'.format(epoch+1))
+            torch.save(self.model.state_dict(),'saved_model/model_edu.pkl.{}'.format(epoch+1))
 
     def testAccuracy(self, phase, model, inputData):
         total = nCorrects = nWrongs = count = 0 
@@ -311,7 +311,7 @@ class ModelEDU():
 
     def test(self):
 
-        self.model.load_state_dict(torch.load("edu_crf/EDU.pkl.19")) # load pretrained model
+        self.model.load_state_dict(torch.load("saved_model/pretrained_edu.pkl")) # load pretrained model
         self.model.eval()
 
         with torch.no_grad():

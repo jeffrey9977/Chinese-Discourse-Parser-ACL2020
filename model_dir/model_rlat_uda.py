@@ -22,8 +22,7 @@ try:
 except RuntimeError:
     pass
 
-# os.makedirs("rlat_datasize_study/", exist_ok=True)
-# os.makedirs("rlat_datasize_study/80/", exist_ok=True)
+os.makedirs("saved_model/", exist_ok=True)
 
 tag_to_ix_relation = {'causality':0, 'coordination':1, 'transition':2, 'explanation':3}
 
@@ -186,10 +185,6 @@ class ModelRlat():
             collate_fn=collate_fn_aug
         )
 
-        # record loss and accuracy to csv
-        # with open('{}'.format('rlat_datasize_study/80/record_rlat_shallow.csv'), 'w') as f:  
-        #     f.write('epoch,ce_c_loss,kl_c_loss,ce_s_loss,kl_s_loss,train,valid,test\n')
-
         for epoch in range(15): 
             running_loss1 = 0.0
             running_loss2 = 0.0  
@@ -332,20 +327,13 @@ class ModelRlat():
             with torch.no_grad():
                 valid_acc =  self.test_accuracy("valid", valid_data)
 
-            # with open('{}'.format('rlat_datasize_study/80/record_rlat_shallow.csv'), 'a') as f:
-            #     writer = csv.writer(f, delimiter=',')
-            #     writer.writerow(
-            #         [epoch+1, running_loss1/len(train_data), running_loss2/len(train_data), 
-            #             running_loss3/len(train_data), running_loss4/len(train_data), 
-            #             train_acc, valid_acc, test_acc])
-
-            # torch.save(self.model.state_dict(),'rlat_datasize_study/80/model_rlat_shallow.pkl.{}'.format(epoch+1))
+            torch.save(self.model.state_dict(),'saved_model/model_rlat.pkl.{}'.format(epoch+1))
 
         with torch.no_grad():
             test_acc = self.test_accuracy("test", test_data)
 
     def test(self):
-        self.model.load_state_dict(torch.load("saved_model/model_rlat.pkl.11")) # load pretrained model
+        self.model.load_state_dict(torch.load("saved_model/pretrained_rlat.pkl")) # load pretrained model
         self.model.eval()
 
         collate_fn_rlat = RlatCollator(train_edu=False, train_trans=False, train_rlat=True)

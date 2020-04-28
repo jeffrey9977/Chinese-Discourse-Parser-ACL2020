@@ -14,7 +14,7 @@ def main(args, k_fold=23, batchSize=1):
 
         testEdu, testTrans, testRlat = \
             preprocessor.makeDatasetCdtb(
-                '../CDTB/test', 'csv', makeDev=False, oversample=False
+                'test', 'csv', makeDev=False, oversample=False
             ) 
         # testRlatAug = \
         #     preprocessor.makeDatasetUda(
@@ -22,11 +22,11 @@ def main(args, k_fold=23, batchSize=1):
         #     ) 
         trainRlatAug = \
             preprocessor.makeDatasetUda(
-                '../UDA/train', 'json', oversample=False
+                'shallow_relation/chinese/', 'json', oversample=False
             )
         trainEdu, trainTrans, trainRlat, validEdu, validTrans, validRlat = \
             preprocessor.makeDatasetCdtb(
-                '../CDTB/train', 'csv', makeDev=True, oversample=False
+                'train', 'csv', makeDev=True, oversample=False
             )
 
     if args.train_edu:

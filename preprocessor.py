@@ -51,7 +51,7 @@ class Preprocessor():
     def makeDatasetCdtb(self, fileDir, extension, makeDev=False, oversample=False):
         # calculate the size of augmented sentence pairs
         # then we need to let our training data match this size
-        if fileDir.split('/')[-1] == 'train':
+        if fileDir == 'train':
             rlatPdtbLen = len(self.traindataRlat)
 
         self.traindataDdu = []
@@ -128,16 +128,16 @@ class Preprocessor():
             validdataRlat = dataRlat[cut:]
 
             # to match aug_data size
-            if fileDir.split('/')[-1] == 'train':
+            if fileDir == 'train':
                 idx = 0
                 for i in range(rlatPdtbLen-len(traindataRlat)):
                     traindataRlat.append(traindataRlat[idx])
                     idx += 1
                 assert traindataRlat[0] == traindataRlat[8083] # no oversample == 8083 0.9 7185 0.8
 
-            print('len of {}dataEdu    : {} '.format(fileDir[2:], len(traindataEdu)))
-            print('len of {}dataTrans  : {} '.format(fileDir[2:], len(traindataTrans)))
-            print('len of {}dataRlat   : {} '.format(fileDir[2:], len(traindataRlat)))
+            print('len of {}dataEdu    : {} '.format(fileDir, len(traindataEdu)))
+            print('len of {}dataTrans  : {} '.format(fileDir, len(traindataTrans)))
+            print('len of {}dataRlat   : {} '.format(fileDir, len(traindataRlat)))
             print('len of {}dataEdu    : {} '.format('valid', len(validdataEdu)))
             print('len of {}dataTrans  : {} '.format('valid', len(validdataTrans)))
             print('len of {}dataRlat   : {} '.format('valid', len(validdataRlat)))           
@@ -153,9 +153,9 @@ class Preprocessor():
             traindataTrans = copy.deepcopy(self.traindataTrans)
             traindataRlat = copy.deepcopy(self.traindataRlat)
 
-            print('len of {}dataEdu    : {} '.format(fileDir[2:], len(self.traindataEdu)))
-            print('len of {}dataTrans  : {} '.format(fileDir[2:], len(self.traindataTrans)))
-            print('len of {}dataRlat   : {} '.format(fileDir[2:], len(self.traindataRlat)))
+            print('len of {}dataEdu    : {} '.format(fileDir, len(self.traindataEdu)))
+            print('len of {}dataTrans  : {} '.format(fileDir, len(self.traindataTrans)))
+            print('len of {}dataRlat   : {} '.format(fileDir, len(self.traindataRlat)))
 
             return EDUDataset(traindataEdu, self.eduCrfDict), \
                    TransDataset(traindataTrans), \
@@ -170,19 +170,17 @@ class Preprocessor():
         self.traindataRlat = [] 
         self.numData = 0
 
-        # add shallow relation
-        if fileDir.split('/')[-1] == 'train':
-            # shallow relation (PDTB-style CDTB from conll2016)
-            allFiles = [f for f in sorted(glob.glob('{}/*.{}'.format('shallow_relation/chinese','json')))]
-            # iterate through all training data(csv)
-            for file in allFiles:
-                with open(file, 'r') as f:
-                    for line in f:
-                        data = json.loads(line) 
-                        # generate rlat training data
-                        self.genTraindataRlatShallow(data, self.traindataRlat, oversample, file)
+        # shallow relation (PDTB-style CDTB from conll2016)
+        allFiles = [f for f in sorted(glob.glob('{}/*.{}'.format(fileDir, 'json')))]
+        # iterate through all training data(csv)
+        for file in allFiles:
+            with open(file, 'r') as f:
+                for line in f:
+                    data = json.loads(line) 
+                    # generate rlat training data
+                    self.genTraindataRlatShallow(data, self.traindataRlat, oversample, file)
 
-        print('len of {}dataRlat  : {} '.format(fileDir[2:], len(self.traindataRlat)))
+        print('len of {}dataRlat  : {} '.format(fileDir, len(self.traindataRlat)))
 
         traindataRlat = copy.deepcopy(self.traindataRlat)
 

@@ -29,7 +29,7 @@ try:
 except RuntimeError:
     pass
 
-os.makedirs("oracle_trans/mix_variation/", exist_ok=True)
+os.makedirs("saved_model/", exist_ok=True)
 
 tag_to_ix = {"shift":0, "reduce":1 }
 
@@ -168,9 +168,6 @@ class ModelTrans():
             for i, (bin_r_list, gold_edu) in trange:
                 running_loss, step = self.train_paragraph(trange, bin_r_list, gold_edu, running_loss, step)
 
-            # with open('{}'.format('oracle_trans/mix_variation/mix_variation.csv'), 'w') as f:  
-            #     f.write('epoch,train,test\n')
-
             print("\n")
             print('[%d] loss: %.5f' %
                   (epoch + 1, running_loss*self.batch_size / len(train)))
@@ -180,14 +177,7 @@ class ModelTrans():
             with torch.no_grad():
                 valid_acc = self.test_accuracy("valid", self.model, valid)
 
-                # with open('{}'.format('oracle_trans/mix_variation/mix_variation.csv'), 'a') as f:
-                #     writer = csv.writer(f, delimiter=',')
-                #     writer.writerow(
-                #         [epoch+1, train_acc, test_acc])
-
-                # torch.save(
-                #     model.state_dict(),
-                #     'oracle_trans/mix_variation/model_trans.pkl.{}'.format(epoch+1))
+            torch.save(self.model.state_dict(),'saved_model/model_trans.pkl.{}'.format(epoch+1))
 
         with torch.no_grad():
             test_acc = self.test_accuracy("test", self.model, test)
@@ -442,7 +432,7 @@ class ModelTrans():
         return acc
 
     def test(self):
-        self.model.load_state_dict(torch.load("oracle_trans/mix_retry/model_trans.pkl.6"))
+        self.model.load_state_dict(torch.load("saved_model/pretrained_trans.pkl"))
         self.model.eval()
         with torch.no_grad():
             test_acc = self.test_accuracy("test", self.model, test)

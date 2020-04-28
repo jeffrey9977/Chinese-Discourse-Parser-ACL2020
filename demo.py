@@ -47,12 +47,12 @@ def main(args):
     model_1 = NetTrans(768, 2, 1).cuda()
     model_2 = NetRlat(768, 4, 4, 1).cuda()
 
-    model_3.load_state_dict(torch.load("saved_model/EDU.pkl.19")) # load pretrained model
-    model_3.eval()
-    model_1.load_state_dict(torch.load("saved_model/model_trans.pkl.6")) # load pretrained model
+    model_1.load_state_dict(torch.load("saved_model/pretrained_trans.pkl")) 
     model_1.eval()
-    model_2.load_state_dict(torch.load("saved_model/model_rlat_shallow.pkl.9")) # load pretrained model
+    model_2.load_state_dict(torch.load("saved_model/pretrained_rlat.pkl")) 
     model_2.eval()
+    model_3.load_state_dict(torch.load("saved_model/pretrained_edu.pkl")) 
+    model_3.eval()
 
     tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
 

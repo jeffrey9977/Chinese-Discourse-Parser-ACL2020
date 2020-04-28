@@ -610,24 +610,17 @@ def F_measure_EDU(test,gold):
 
 def main(args):
 
-    model_1 = NetTrans(768,2,1).cuda()
+    model_1 = NetTrans(768, 2, 1).cuda()
     model_2 = NetRlat(768, 4, 4, 1).cuda()
     model_3 = NetEDU(768, 7, 1).cuda()
 
-    model_1.load_state_dict(torch.load("saved_model/model_trans.pkl.6")) # load pretrained model
-    model_1.eval() # model_rlat.pkl.3 model_exam_rlat.pkl.3
-    # binary version of relation classifer
-    # model_2.load_state_dict(torch.load("saved_model/acl_model_rlat_shallow")) # load pretrained model
-    # model_2.eval()
-    # without UDA
-    # model_2.load_state_dict(torch.load("../CDTB/saved_model/pretrained_rlat")) # load pretrained model
-    # model_2.eval()
-    # with UDA multiway tree
-    model_2.load_state_dict(torch.load("saved_model/model_rlat_shallow.pkl.9")) # load pretrained model
+    model_1.load_state_dict(torch.load("saved_model/pretrained_trans.pkl")) 
+    model_1.eval()
+    model_2.load_state_dict(torch.load("saved_model/pretrained_rlat.pkl")) 
     model_2.eval()
-    model_3.load_state_dict(torch.load("saved_model/EDU.pkl.19")) # load pretrained model
+    model_3.load_state_dict(torch.load("saved_model/pretrained_edu.pkl")) 
     model_3.eval()
-
+    
     tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
 
     p_total = r_total = p_merge = r_merge = p_sense = r_sense = p_center = r_center = p_join = r_join = 0
@@ -647,7 +640,7 @@ def main(args):
 
     test_count = acc_count = gold_count = 0
 
-    all_files = [f for f in sorted(glob.glob('{}/*.{}'.format('../CDTB/test','csv')))]
+    all_files = [f for f in sorted(glob.glob('{}/*.{}'.format('CDTB/test','csv')))]
     # iterate through all training data(csv)
 
     trange = tqdm(enumerate(all_files),
