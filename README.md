@@ -1,6 +1,15 @@
 # How to run
 
-1. Prepare the training data and train three models
+1. Convert the raw data and store the result in `./train` and `./test`:
+    
+    convert xml to csv 
+    use bs4 BeautifulSoup (parser.py)
+
+```
+python3.6 convert_raw_data.py
+```
+
+1. Train three models
 
 model architectures (model_edu.py, model_trans.py, model_rlat.py) are placed in model_dir/ and the model checkpoint will be placed in saved_model/
 
