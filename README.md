@@ -9,7 +9,7 @@
 python3.6 convert_raw_data.py
 ```
 
-1. Train three models
+2. Train three models
 
 model architectures (model_edu.py, model_trans.py, model_rlat.py) are placed in model_dir/ and the model checkpoint will be placed in saved_model/
 
@@ -17,7 +17,7 @@ model architectures (model_edu.py, model_trans.py, model_rlat.py) are placed in 
 python3.6 main.py --make_dataset --train_edu --train_trans --train_rlat
 ```
 
-2. Then you can test your model performance as follow:
+3. Then you can test your model performance as follow:
 
 ```
 python3.6 test.py 
@@ -27,7 +27,7 @@ python3.6 test.py
 --test_macro    : performances reported in micro F1 score
 --convert_multi : covert binary tree to mutliway tree
 
-3. To predict, run
+4. To predict, run
 
 ```
 python3.6 demo.py --input_file $1 --output_file $2 
