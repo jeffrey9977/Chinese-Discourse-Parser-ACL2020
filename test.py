@@ -756,15 +756,14 @@ def main(args):
                     test_sent += node.sent
                     test_sent = test_sent[:-1]
                     test_sent += "+"
-
+                    
                 for idx, s in enumerate(gold_sent):
-                    if test_sent[idx] in '+' and s in PUNCs: # wrong 
+                    if test_sent[idx] in '+':
                         test_count += 1
                     if test_sent[idx] in '+' and s in '+': # correct
-                        test_count += 1
                         acc_count += 1
                     if s in '+':
-                        gold_count += 1           
+                        gold_count += 1   
 
                 for predict_node in predict_node_list:
                     for gold_node in gold_node_list:
